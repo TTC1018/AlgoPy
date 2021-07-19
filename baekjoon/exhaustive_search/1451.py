@@ -1,3 +1,5 @@
+# 직사각형으로 3등분 하기
+
 def getSum(nums, sx, sy, ex, ey):
     sum = 0
     for i in range(sx, ex+1):
@@ -14,6 +16,7 @@ nums = []
 for i in range(N):
     nums.append([int(''.join(n)) for n in input()])
 
+# 세로 3등분
 for i in range(N-2):
     for j in range(i+1, N-1):
         sq1 = getSum(nums, 0, 0, i, M-1)
@@ -21,6 +24,7 @@ for i in range(N-2):
         sq3 = getSum(nums, j+1, 0, N-1, M-1)
         answer = max(answer, sq1*sq2*sq3)
 
+# 가로 3등분
 for i in range(M-2):
     for j in range(i+1, M-1):
         sq1 = getSum(nums, 0, 0, N-1, i)
