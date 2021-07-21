@@ -22,7 +22,7 @@ N = int(input())
 nums = [int(''.join(n)) for n in input().split(' ')]
 answer = 0
 for i in range(len(nums) - 1):
-        answer += abs(nums[i] - nums[i + 1])
+    answer += abs(nums[i] - nums[i + 1])
 
 per = permute(nums)
 for list in per:
