@@ -1,7 +1,7 @@
 def solve(prev, dest, cost, W, visited, N):
     global answer
 
-    if len(visited) == N and W[dest][prev] != 0:
+    if len(visited) == N:
         if W[dest][prev] != 0:
             answer = min(answer, cost + W[dest][prev])
         return
