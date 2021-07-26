@@ -8,6 +8,13 @@ def prime(num):
     return True
 
 
+def solve(num, nums, visited):
+    visited[]
+
+    for n in nums:
+
+
+
 T = int(input())
 for i in range(T):
     A, B = [int(''.join(n)) for n in input().split(' ')]
