@@ -13,11 +13,14 @@ def prime(num):
 
 
 def solve(A, B):
-    global answer
     q = deque([[list(str(A)), 0]])
     visited = {A}
 
     while True:
+        if len(q) == 0:
+            print('Impossible')
+            return
+
         num, answer = q.popleft()
         if int(''.join(num)) == B:
             print(answer)
@@ -25,27 +28,18 @@ def solve(A, B):
         else:
             for i in range(4):
                 for j in range(10):
-                    if num[i] == j:
+                    if num[i] == str(j):
                         continue
                     else:
                         temp = copy.deepcopy(num)
                         temp[i] = str(j)
-                        temp = int(''.join(temp))
-                        if temp not in visited and temp > 1000 and prime(temp):
-                            visited.add(temp)
+                        temp_num = int(''.join(temp))
+                        if temp_num not in visited and temp_num > 1000 and prime(temp_num):
+                            visited.add(temp_num)
                             q.append([temp, answer + 1])
 
 
 T = int(input())
 for i in range(T):
     A, B = [int(''.join(n)) for n in input().split(' ')]
-    answer = 0
-
     solve(A, B)
-    if A != B:
-        print("Impossible")
-
-
-
-
-
