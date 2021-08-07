@@ -1,21 +1,14 @@
-from itertools import permutations
+from itertools import combinations
 from collections import deque
 
+# L개의 알파벳으로 구성되는 단어, 최소 1개의 (a e i o u)와 최소 두개의 자음, 알파벳 오름차순
 L, C = list(map(int, input().split(' ')))
 alphas = input().split(' ')
-vowel = []
-conso = []
+vo_ = ['a', 'e', 'i', 'o', 'u']
+vowel = [alpha for alpha in alphas if alpha in vo_]
+conso = [alpha for alpha in alphas if alpha not in vo_]
 
-for alpha in alphas:
-    if alpha in ['a', 'e', 'i', 'o', 'u']:
-        vowel.append(alpha)
-    else:
-        conso.append(alpha)
-vowel.sort()
-conso.sort()
-# L개의 알파벳으로 구성되는 단어, 최소 1개의 (a e i o u)와 최소 두개의 자음, 알파벳 오름차순
 answer = []
-
 q = deque()
 for v in vowel:
     q.append([v])
@@ -28,31 +21,20 @@ while q:
         continue
 
     if L - len(w) > 2:
-        rest_v = [v for v in vowel if v not in w]
-        for rv in rest_v:
-            if w[-1] < rv:
-                q.append(w + [rv])
-    else:
-        perm = list(map(list, list(permutations(conso, L - len(w)))))
-        for p in perm:
-            p.sort()
+        for rv in [[rv] for rv in vowel if rv not in w]:
+            temp_w_rv = sorted(w + rv)
+            if temp_w_rv not in q:
+                q.append(temp_w_rv)
 
-        for p in perm:
-            if perm.count(p) > 1:
-                perm.remove(p)
-        print(perm)
-        perm = list(set(perm))
-
-        for p in perm:
-            if w[-1] < p[0]:
-                q.append(w + list(p))
-
+    perm = list(combinations(conso, L - len(w)))
+    for p in perm:
+        temp_w_p = sorted(w + list(p))
+        if temp_w_p not in q:
+            q.append(temp_w_p)
 
 for i in range(len(answer)):
     answer[i] = ''.join(answer[i])
 
-answer = list(set(answer))
-answer.sort()
-
+answer = sorted(list(set(answer)))
 for word in answer:
     print(word)
