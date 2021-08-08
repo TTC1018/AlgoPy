@@ -1,18 +1,17 @@
 def generate_cand(i, j):
 
+    # 불가능한 값은 후보군에서 제거하는 메소드
     candidate = [n for n in range(1, 10)]
-    for row in sdk[i]:
-        if row in candidate:
-            candidate.remove(row)
-    for col in range(9):
-        if sdk[i][col] in candidate:
-            candidate.remove(sdk[i][col])
-    for row in range(3):
-        for col in range(3):
-            new_r = (i // 3) * 3 + row
-            new_c = (j // 3) * 3 + col
-            if sdk[new_r][new_c] in candidate:
-                candidate.remove(sdk[new_r][new_c])
+    for col in sdk[i]:
+        if col in candidate:
+            candidate.remove(col)
+    for row in range(9):
+        if sdk[row][j] in candidate:
+            candidate.remove(sdk[row][j])
+    for row in range((i // 3) * 3, (i // 3) * 3 + 2 + 1):
+        for col in range((j // 3) * 3, (j // 3) * 3 + 2 + 1):
+            if sdk[row][col] in candidate:
+                candidate.remove(sdk[row][col])
 
     return candidate
 
@@ -23,16 +22,16 @@ def solve(depth):
     if end_flag:
         return
 
-    if depth == len(points):
+    if depth == len(points): # 답까지 도달한 값들만이 함수를 종료시킬 수 있음
         end_flag = True
         for row in sdk:
-            print(' '.join(map(str, row)))
+            print(*row)
         return
     else:
         i, j = points[depth]
         candidate = generate_cand(i, j)
         for c in candidate:
-            sdk[i][j] = c
+            sdk[i][j] = c # 답이 아닌 값이 전달될 시에, 결국에는 candidate가 빈 리스트가 됨. 그것이 break의 역할을 해줌
             solve(depth + 1)
             sdk[i][j] = 0
 
