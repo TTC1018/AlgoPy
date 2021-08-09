@@ -18,7 +18,7 @@ def solution(numbers):
             if (n % i == 0):
                 check = False
                 break
-        if (check):
+        if check:
             answer.append(n)
 
     return len(set(answer))
