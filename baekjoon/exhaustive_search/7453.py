@@ -13,6 +13,7 @@ while ac < n and bc < n and cc < n and dc < n:
     if A[ac] + B[bc] + C[cc] + D[dc] == 0:
         answer += 1
 
-    
+
+
 
 print(answer)
