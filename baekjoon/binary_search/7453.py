@@ -10,7 +10,6 @@ for _ in range(n):
 
 answer = 0
 AB = {}
-CD = {}
 for val_a in A:
     for val_b in B:
         val_ab = val_a + val_b
