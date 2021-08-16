@@ -1,3 +1,5 @@
+# 시계방향 연속합
+
 P = int(input())
 A, B = [], []
 m, n = map(int, input().split(' '))
