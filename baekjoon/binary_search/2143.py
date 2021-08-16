@@ -13,8 +13,6 @@ for i in range(1, m + 1):
         sum_B[sum(B[j:j+i]) + 1000000000] += 1
 
 answer = 0
-for val_a in sum_A:
-    for val_b in sum_B:
-        if val_a + val_b == T:
-            answer += (sum_A[val_a + 1000000000] * sum_B[val_b + 1000000000])
+for i in range(1, T):
+        answer += (sum_A[i + 1000000000] * sum_B[T-i + 1000000000])
 print(answer)
