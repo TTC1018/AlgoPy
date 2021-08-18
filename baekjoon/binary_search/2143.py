@@ -1,4 +1,4 @@
-# defaultdict는 
+# defaultdict 사용시 기본 값이 자동으로 설정됨
 
 T = int(input())
 n = int(input())
