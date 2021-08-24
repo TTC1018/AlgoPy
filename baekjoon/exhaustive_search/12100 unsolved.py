@@ -14,8 +14,6 @@ answer = 0
 while q:
     temp_B, count = q.popleft()
     if count == 5:
-        for l in temp_B:
-            answer = max(answer, max(l))
         continue
 
     # 상
@@ -58,30 +56,37 @@ while q:
             lf_B[i][j] = row_B[j]
     if temp_B != lf_B:
         q.append((lf_B, count + 1))
+
     # 우
     rt_B = [[0] * N for _ in range(N)]
     for i in range(N):  # 행
         visited = False
         row_B = deepcopy(temp_B[i])
-        cursor = -1
-        while abs(cursor) < len(row_B):  # 렬
-            if row_B[cursor] == 0:
+        for j in range(N-2, -1, -1):  # 렬
+            if row_B[j + 1] == 0:
                 visited = False
-                row_B[cursor] = row_B[cursor - 1]
-                row_B.pop(cursor - 1)
-                row_B.insert(0, 0)
-            elif row_B[cursor] == row_B[cursor - 1] and not visited:
+                c = j
+                while c >= 0:
+                    if row_B[c] == 0:
+                        c -= 1
+                    else:
+                        row_B[j + 1] = row_B[c]
+                        row_B[c] = 0
+                        j = c - 1
+                        break
+            elif row_B[j] == row_B[j + 1] and not visited:
                 visited = True
-                row_B[cursor] *= 2
-                row_B.pop(cursor - 1)
-                row_B.insert(0, 0)
+                row_B[j + 1] *= 2
+                row_B[j] = 0
             else:
                 visited = False
-                cursor -= 1
         for j in range(N):
             rt_B[i][j] = row_B[j]
     print(temp_B, rt_B)
     if temp_B != rt_B:
         q.append((rt_B, count + 1))
+
+    for l in temp_B:
+        answer = max(answer, max(l))
 
 print(answer)
