@@ -21,7 +21,7 @@ def solve(y, x):
                         break
 
                 ny2, nx2 = y + j, x - j
-                
+
 
             if not flag:
                 m[y + 1][i] = True
