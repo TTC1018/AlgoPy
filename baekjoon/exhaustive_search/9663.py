@@ -20,6 +20,9 @@ def solve(y, x):
                         flag = True
                         break
 
+                ny2, nx2 = y + j, x - j
+                
+
             if not flag:
                 m[y + 1][i] = True
                 solve(y + 1, i)
