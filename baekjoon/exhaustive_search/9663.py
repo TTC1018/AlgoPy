@@ -5,11 +5,12 @@ def solve(y, x):
         answer += 1
         return
 
-    flag = False
     for i in range(N): # 다음 행에 속한 위치 전체 탐색
-        for j in range(N): # 탐색 대상의 열 검사
+        flag = False
+        for j in range(y + 1): # 탐색 대상의 열 검사
             if m[j][i]:
                 flag = True
+                print(j, i, 'first breaked')
                 break
 
         if not flag:
@@ -18,15 +19,23 @@ def solve(y, x):
                 if 0 <= ny < N and 0 <= nx < N:
                     if m[ny][nx]:
                         flag = True
+                        print(j, i, 'second breaked')
                         break
 
-                ny2, nx2 = y + j, x - j
-
-
             if not flag:
-                m[y + 1][i] = True
-                solve(y + 1, i)
-                m[y + 1][i] = False
+                for j in range(-(N - 1), N):
+                    ny, nx = y - j, x + j
+                    if 0 <= ny < N and 0 <= nx < N:
+                        if m[ny][nx]:
+                            flag = True
+                            print(j, i, 'third breaked')
+                            break
+
+                if not flag:
+                    print(y + 1, i)
+                    m[y + 1][i] = True
+                    solve(y + 1, i)
+                    m[y + 1][i] = False
 
 
 N = int(input())
