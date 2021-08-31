@@ -29,13 +29,10 @@ vs = []
 
 for i in range(N):
     rooms.append(list(map(int, input().split())))
-    if rooms[i].count(2) > 0:
-        temp = deepcopy(rooms[i])
-        while 2 in temp:
-            idx = temp.index(2)
-            vs.append((i, idx))
-            temp.remove(2)
-            temp.insert(idx, 0)
+    for j in range(N):
+        if rooms[i][j] == 2:
+            vs.append((i, j))
+
 
 answer = -(N + 1)
 q = deque()
