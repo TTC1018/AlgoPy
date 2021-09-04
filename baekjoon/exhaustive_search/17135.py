@@ -22,7 +22,7 @@ def solve(rangers):
                 if flag:
                     break
                 if 0 <= i < M:
-                    for j in range(D - abs(ranger - i), -1, -1):
+                    for j in range(D - abs(ranger - i)):
                         row = (N - 1) - j
                         if 0 <= row < N:
                             if grid_copy[row][i] == 1:
