@@ -18,6 +18,7 @@ def solve(rangers):
     while grid_copy != break_condition:
         for ranger in rangers:
             flag = False
+            leftFlag = False
             for i in range(ranger - (D - 1), ranger + (D - 1) + 1):
                 if flag:
                     break
@@ -26,9 +27,16 @@ def solve(rangers):
                         row = (N - 1) - j
                         if 0 <= row < N:
                             if grid_copy[row][i] == 1:
-                                grid_copy[row][i] = 0
-                                result += 1
-                                flag = True
+                                if abs(ranger - i) == D:
+                                    if not leftFlag:
+                                        result += 1
+                                        leftFlag = True
+                                    if leftFlag and ranger == rangers[-1]:
+                                        grid_copy[row][i] = 0
+                                else:
+                                    grid_copy[row][i] = 0
+                                    result += 1
+                                    flag = True
                                 break
         grid_copy.pop(N - 1)
         grid_copy.insert(0, [0] * M)
@@ -36,6 +44,6 @@ def solve(rangers):
 
 
 answer = 0
-for c in combinations([n for n in range(5)], 3):
+for c in combinations([n for n in range(M)], 3):
     answer = max(answer, solve(c))
 print(answer)
