@@ -14,11 +14,10 @@ for _ in range(N):
 # 제거 가능한 최대수
 def solve(rangers):
     grid_copy = deepcopy(grids)
-    result = 0
+    result = set()
     while grid_copy != break_condition:
         for ranger in rangers:
             flag = False
-            leftFlag = False
             for i in range(ranger - (D - 1), ranger + (D - 1) + 1):
                 if flag:
                     break
@@ -27,20 +26,20 @@ def solve(rangers):
                         row = (N - 1) - j
                         if 0 <= row < N:
                             if grid_copy[row][i] == 1:
-                                if abs(ranger - i) == D:
-                                    if not leftFlag:
-                                        result += 1
-                                        leftFlag = True
-                                    if leftFlag and ranger == rangers[-1]:
-                                        grid_copy[row][i] = 0
+                                continueFlag = False
+                                for k in range(row):
+                                    if 1 in grid_copy[k][i] and (row, i) in result:
+                                        continueFlag = True
+                                        break
+                                if continueFlag:
+                                    continue
                                 else:
-                                    grid_copy[row][i] = 0
-                                    result += 1
+                                    result.add((row, i))
                                     flag = True
                                 break
         grid_copy.pop(N - 1)
         grid_copy.insert(0, [0] * M)
-    return result
+    return len(list(result))
 
 
 answer = 0
