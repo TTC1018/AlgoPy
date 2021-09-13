@@ -21,11 +21,6 @@ for i in range(N):
 
 distance = sys.maxsize
 for c in combinations(P, M):
-    # temp_C = deepcopy(C)
-    # for x, y in P:
-    #     temp_C[x][y] = 0
-    # for x, y in c:
-    #     temp_C[x][y] = 2
     temp_distance = 0
     for x, y in H:
         dist = sys.maxsize
