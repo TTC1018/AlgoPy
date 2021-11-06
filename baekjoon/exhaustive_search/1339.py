@@ -20,3 +20,4 @@ def solve():
 
 vals = [0] * 26
 print(solve())
+print(vals)
