@@ -14,6 +14,6 @@ while start <= end:
         answer = mid
         start = mid + 1
     elif t_sum < M:
-        end = mid -1
+        end = mid - 1
 
 print(answer)
