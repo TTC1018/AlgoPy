@@ -19,4 +19,5 @@ while start <= end:
     else:
         start = mid + 1
         answer = mid
+
 print(answer)
