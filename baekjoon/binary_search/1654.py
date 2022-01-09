@@ -4,7 +4,7 @@ lans = []
 for i in range(K):
     lans.append(int(input()))
 
-start, end = 1, min(lans)
+start, end = 1, max(lans)
 
 answer = 0
 while start <= end:
