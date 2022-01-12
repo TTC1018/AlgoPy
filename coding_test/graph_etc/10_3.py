@@ -5,8 +5,8 @@ def find_parent(x):
 
 
 def union_parent(a, b):
-    a = p_list[a]
-    b = p_list[b]
+    a = find_parent(a)
+    b = find_parent(b)
     if a > b:
         p_list[a] = b
     else:
