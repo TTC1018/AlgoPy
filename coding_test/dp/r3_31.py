@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 T = int(input())
-direction = [(-1, -1), (0, -1), (1, -1)]
+direction = [(-1, -1), (0, -1), (1, -1)] # 왼쪽 위 / 왼쪽 / 왼쪽 아래
 
 for i in range(T):
     n, m = map(int, input().split())
