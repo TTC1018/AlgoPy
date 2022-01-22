@@ -9,7 +9,7 @@ nums = list(map(int, input().split()))
 #     print(answer)
 
 
-# 시간 복잡도 O(logN)
+# 시간 복잡도 O(logN) bisect 라이브러리
 start, end = 0, N - 1
 first = -1
 while start <= end: # 맨 앞 x 인덱스 구하기
