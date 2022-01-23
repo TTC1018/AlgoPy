@@ -28,7 +28,7 @@ for i in range(N):
     data = list(map(int, input().split()))
     for j in range(M):
         if data[j] == 0:
-            cands.append((i, j))
+            cands.append((i, j)) # 벽을 세울 수 있는 곳을 미리 저장해두기
     m.append(data)
 temp = [[0] * M for _ in range(N)]
 
@@ -39,17 +39,21 @@ for c in combinations(cands, 3):
     for x, y in c:
         m[x][y] = 1
 
+    # 임시 리스트에 원본을 복사
     for i in range(N):
         for j in range(M):
             temp[i][j] = m[i][j]
 
+    # 바이러스가 있는 좌표부터 바이러스 확장
     for i in range(N):
         for j in range(M):
             if temp[i][j] == 2:
                 spread_v(i, j)
 
+    # 0의 개수를 세기
     answer = max(answer, area_sum())
 
+    # 벽을 세웠던 곳을 원상 복구
     for x, y in c:
         m[x][y] = 0
 print(answer)
