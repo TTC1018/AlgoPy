@@ -35,5 +35,3 @@ def solution(name):
     print(answer1, answer2)
     answer = answer1 + answer2
     return answer
-
-print(solution(input()))
