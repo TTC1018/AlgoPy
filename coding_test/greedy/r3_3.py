@@ -1,5 +1,7 @@
 S = input()
 
+# 1100101
+
 one_list = [s for s in S.split('0') if s != '']
 zero_list = [s for s in S.split('1') if s != '']
 
