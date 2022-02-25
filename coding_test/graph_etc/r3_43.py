@@ -16,7 +16,7 @@ def union_parent(a, b):
     else:
         parent[pb] = pa
 
-
+# 최소 신장 트리 = 크루스칼 알고리즘
 N, M = map(int, input().split())
 parent = [i for i in range(N)]
 
@@ -34,4 +34,4 @@ for e in edges:
     if find_parent(a) != find_parent(b):
         union_parent(a, b)
         answer += cost
-print(total - answer)
+print(total - answer) # 절약된 금액을 구하는 문제이므로 전체 금액 합 - 신장 트리 금액 합이 답임
