@@ -22,6 +22,13 @@ def r_q_search(q):
 # queries = 찾고자 하는 키워드 (2개 이상)
 def solution(words, queries):
     answer = []
+    word_arr = [[] for _ in range(10001)]
+    word_arr_rev = [[] for _ in range(10001)]
+
+    for w in words:
+        word_arr[len(w)].append(w)
+        word_arr_rev[len(w)].append(w[::-1])
+
     w_size = len(words)
 
     words.sort(key=lambda x: (len(x), x))
