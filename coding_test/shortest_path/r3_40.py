@@ -2,6 +2,8 @@ import heapq
 
 INF = int(1e9)
 N, M = map(int, input().split())
+distance = [INF] * (N + 1)
+distance[1] = 0
 
 routes = [[] for _ in range(N + 1)]
 for _ in range(M):
@@ -9,26 +11,25 @@ for _ in range(M):
     routes[A].append(B)
     routes[B].append(A)
 
-distance = [INF] * (N + 1)
-distance[1] = 0
-
-q = []
-for i in routes[1]:
-    q.append((1, i))
-
+q = [(0, 1)]
 while q:
-    cost, now = heapq.heappop(q)
+    dist, now = heapq.heappop(q)
 
-    if distance[now] < cost:
+    if distance[now] < dist:
         continue
     for next in routes[now]:
+        cost = dist + 1
         if cost < distance[next]:
             distance[next] = cost
-            heapq.heappush(q, (cost + 1, next))
+            heapq.heappush(q, (cost, next))
 
-min_dest, max_val = N + 1, 0
-for i in range(N + 1):
+min_dest, max_val, count = N, 0, 0
+for i in range(1, N + 1):
     if distance[i] != INF:
         max_val = max(max_val, distance[i])
+for i in range(1, N + 1):
+    if distance[i] == max_val:
         min_dest = min(min_dest, i)
-print(min_dest, max_val, distance.count(max_val))
+        count += 1
+
+print(min_dest, max_val, count)
