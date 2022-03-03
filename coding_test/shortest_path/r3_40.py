@@ -13,9 +13,8 @@ distance = [INF] * (N + 1)
 distance[1] = 0
 
 q = []
-for i in range(1, N + 1):
-    if routes[1][i]:
-        q.append((1, i))
+for i in routes[1]:
+    q.append((1, i))
 
 while q:
     cost, now = heapq.heappop(q)
