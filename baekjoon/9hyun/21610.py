@@ -27,8 +27,8 @@ def move_cloud(d_index):
 
 
 def raining():
-    for c in cloud:
-        x, y = c
+    while cloud:
+        x, y = cloud.popleft()
         graph[x][y] += 1
 
 
@@ -46,7 +46,6 @@ def copy_water():
 
 
 def generate_cloud():
-
     exceptions = []
     while cloud:
         exceptions.append(cloud.popleft())
