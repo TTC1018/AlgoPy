@@ -13,27 +13,29 @@ for _ in range(loop):
     for i in range(1, n + 1):
         rank[t[i]] = i
     parent = [0, 1] + [n for n in range(1, n)]
-
     m = int(input())
     for i in range(m):
         a, b = map(int, input().split())
-        if rank[a] > rank[b]:
-            parent[rank[a]] = rank[b]
-        else:
+        if rank[a] < rank[b]:
             parent[rank[b]] = rank[a]
+        else:
+            parent[rank[a]] = rank[b]
     # 올해 순위 오름차순으로, 확실하지 않은 순위는 ?
     # 순위를 정할 수 없으면 IMPOSSIBLE
     answer = []
+    rank = sorted(rank.items())
+    rank.sort(key=lambda x: x[1])
+    print(rank)
     for i in range(1, n + 1):
         # 상위 찾기
         high_count, low_count = 0, 0
         for j in [k for k in range(1, n + 1) if k != i]:
-            if find_parent(j) < i:
+            if rank[j][1] < i:
                 high_count += 1
             else:
                 low_count += 1
         if high_count + low_count == n - 1:
-            answer.append(rank[i])
+            answer.append(rank[i][0])
         else:
             answer.append('?')
     print(parent)
@@ -41,6 +43,3 @@ for _ in range(loop):
         print('IMPOSSIBLE')
     else:
         print(*answer)
-
-
-
