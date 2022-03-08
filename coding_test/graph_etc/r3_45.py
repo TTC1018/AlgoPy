@@ -1,45 +1,58 @@
-def find_parent(node):
-    if parent[node] != node:
-        return find_parent(parent[node])
-    return parent[node]
+from collections import deque
 
-
-loop = int(input())
-parent = []
-for _ in range(loop):
+for _ in range(int(input())):
     n = int(input())
-    t = [0] + list(map(int, input().split()))
-    rank = dict()
-    for i in range(1, n + 1):
-        rank[t[i]] = i
-    parent = [0, 1] + [n for n in range(1, n)]
+    indegree = [0] * (n + 1)  # 진입 차수
+    graph = [[False] * (n + 1) for i in range(n + 1)]  # 연결 여부
+
+    rank = list(map(int, input().split()))
+    for i in range(n):
+        for j in range(i + 1, n):
+            graph[rank[i]][rank[j]] = True
+            indegree[rank[j]] += 1  # 진입 차수 상승
+
     m = int(input())
     for i in range(m):
         a, b = map(int, input().split())
-        if rank[a] < rank[b]:
-            parent[rank[b]] = rank[a]
+        if graph[a][b]:
+            graph[a][b], graph[b][a] = False, True  # 간선 방향을 거꾸로 변경
+            indegree[a] += 1
+            indegree[b] -= 1
         else:
-            parent[rank[a]] = rank[b]
-    # 올해 순위 오름차순으로, 확실하지 않은 순위는 ?
-    # 순위를 정할 수 없으면 IMPOSSIBLE
-    answer = []
-    rank = sorted(rank.items())
-    rank.sort(key=lambda x: x[1])
-    print(rank)
+            graph[a][b], graph[b][a] = True, False
+            indegree[a] -= 1
+            indegree[b] += 1
+
+    result = []
+    q = deque()
+
     for i in range(1, n + 1):
-        # 상위 찾기
-        high_count, low_count = 0, 0
-        for j in [k for k in range(1, n + 1) if k != i]:
-            if rank[j][1] < i:
-                high_count += 1
-            else:
-                low_count += 1
-        if high_count + low_count == n - 1:
-            answer.append(rank[i][0])
-        else:
-            answer.append('?')
-    print(parent)
-    if answer.count('?') == n:
+        if indegree[i] == 0:  # 진입 차수 0 = 위상 정렬 시작 지점
+            q.append(i)
+
+    onlyOne = True
+    isCycle = False
+
+    for i in range(n):
+        if len(q) == 0:  # 다 확인하기 전에 큐가 빈 경우 = 싸이클
+            isCycle = True
+            break
+
+        if len(q) >= 2:  # 큐에 답이 두개 이상 있는 경우 = 위상 정렬의 값이 여러개 존재
+            onlyOne = False
+            break
+
+        now = q.popleft()
+        result.append(now)
+        for j in range(1, n + 1):
+            if graph[now][j]:  # 연결 돼있는 간선
+                indegree[j] -= 1  # 진입 차수 내리고
+                if indegree[j] == 0:  # 진입 차수 0이면 큐에 추가
+                    q.append(j)
+
+    if isCycle:
         print('IMPOSSIBLE')
+    elif not onlyOne:
+        print('?')
     else:
-        print(*answer)
+        print(*result)
