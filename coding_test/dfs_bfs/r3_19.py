@@ -5,7 +5,7 @@ def dfs(num, index):
 
     for j in range(1, 4 + 1):
         if oper[j] != 0:
-            oper[j] -= 1
+            oper[j] -= 1 # 사용했다고 생각하고 연산자 개수 -1
             if j == 1: # +
                 dfs(num + A[index], index + 1)
             elif j == 2: # -
