@@ -1,6 +1,12 @@
-def solution(n, build_frame):
-    answer = [[]]
+def isRight(answer):
+    flag = True
 
+    return flag
+
+
+
+def solution(n, build_frame):
+    answer = []
     # x, y, a, b
     # a => 구조물 종류 (0: 기둥, 1: 보)
     # b => 설치/삭제 명령어 (0: 삭제, 1: 설치)
@@ -12,19 +18,19 @@ def solution(n, build_frame):
 
     for build in build_frame:
         x, y, a, b = build
+        answer.append([x, y, a])
         if a == 0: # 기둥
             if b == 0: # 삭제
-                pass
+                if not isRight(answer):
+                    answer.remove([x, y, a])
             else: # 설치
                 if y == 0 or top[y][x]:
                     pillar[y][x] = True
         else: # 보
             if b == 0: # 삭제
-                pass
+                if not isRight(answer):
+                    answer.remove([x, y, a])
             else: # 설치
                 if pillar[y - 1][x] or pillar[y - 1][x - 1] or (top[y][x - 1] and top[y][x + 1]):
                     top[y][x] = True
-                pass
-
-
     return answer
