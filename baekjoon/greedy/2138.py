@@ -19,6 +19,7 @@ next.append((origin, 0))
 answer = sys.maxsize
 while next:
     now, count = next.popleft()
+    print(now)
 
     cand = ''
     for i in range(N):
