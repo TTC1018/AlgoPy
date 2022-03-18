@@ -1,4 +1,4 @@
-import sys
+INF = int(1e9)
 from collections import deque
 def reverse(strs):
     result = ''
@@ -16,17 +16,16 @@ visited = [origin]
 next = deque()
 next.append((origin, 0))
 
-answer = sys.maxsize
+answer = INF
 while next:
     now, count = next.popleft()
-    print(now)
 
     cand = ''
     for i in range(N):
         if i == 0:
             cand = reverse(now[:2]) + now[2:]
         elif i == N - 1:
-            cand = now[:N - 1] + reverse(now[N - 1:])
+            cand = now[:i - 1] + reverse(now[i - 1:])
         else:
             cand = now[:i - 1] + reverse(now[i - 1:i + 2]) + now[i + 2:]
 
@@ -37,7 +36,7 @@ while next:
             else:
                 next.append((cand, count + 1))
 
-if answer != sys.maxsize:
+if answer != INF:
     print(answer)
 else:
     print(-1)
