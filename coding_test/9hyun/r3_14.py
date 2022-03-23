@@ -12,7 +12,7 @@ def solution(n, weak, dist):
         for idx, w in enumerate(weak):
             head = w
             tail = weak[idx:] + [n+i for i in weak[:idx]] 
-            # 반시계 회전도 가능하기에 head보다 아래 인덱스는 
+            # head보다 아래 인덱스는 한바퀴 돌아서 도착하는 것과 같기 때문에
             # n을 더해서 반시계로 회전했을 때의 거리로 바꿔줌
             
             temp_cover = [t % n for t in tail if t - head <= d] 
