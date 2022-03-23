@@ -9,7 +9,7 @@ h_left_rot = [(1, 1), (-1, 1)]
 h_right_rot = [(1, -1), (-1, -1)]
 
 def dfs(first, second, count):
-    global answer
+    global answer, b_len, visited
     
     fx, fy = first
     sx, sy = second
@@ -78,7 +78,7 @@ b_len = 0
 visited = []
 answer = INF
 def solution(board):
-    global answer
+    global answer, visited, b_len
     
     b_len = len(board)
     visited = [[False] * b_len for _ in range(b_len)]
