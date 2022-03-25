@@ -13,12 +13,11 @@ def solution(board):
     answer = INF
     
     b_len = len(board)
-    visited = set(['0001'])
     
     q = []
-    heapq.heappush(q, (0, (0, 0), (0, 1)))
+    heapq.heappush(q, (0, (0, 0), (0, 1), {'0001'}))
     while q:
-        count, first, second = heapq.heappop(q)
+        count, first, second, visited = heapq.heappop(q)
         fx, fy = first
         sx, sy = second
         
@@ -36,7 +35,7 @@ def solution(board):
                 target_str = ''.join(list(map(str, [nfx, nfy, nsx, nsy])))
                 if not target_str in visited and board[nfx][nfy] != 1 and board[nsx][nsy] != 1:
                     visited.add(target_str)
-                    heapq.heappush(q, (count + 1, (nfx, nfy), (nsx, nsy)))
+                    heapq.heappush(q, (count + 1, (nfx, nfy), (nsx, nsy), visited))
         # 90도 회전
         if fx == sx: # 수평일 때
             for idx, h_lr in enumerate(h_left_rot):
@@ -46,23 +45,21 @@ def solution(board):
                     if not target_str in visited and board[nfx][nfy] != 1:
                         if idx == 0 and board[fx + 1][fy] != 1:
                             target_str = ''.join(list(map(str, [sx, sy, nfx, nfy])))
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (sx, sy), (nfx, nfy)))
+                            heapq.heappush(q, (count + 1, (sx, sy), (nfx, nfy), visited))
                         elif idx == 1 and board[fx - 1][fy] != 1:
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (nfx, nfy), (sx, sy)))
+                            heapq.heappush(q, (count + 1, (nfx, nfy), (sx, sy), visited))
+                        visited.add(target_str)
             for idx, h_rr in enumerate(h_right_rot):
                 nsx, nsy = sx + h_rr[0], sy + h_rr[1]
                 if 0 <= nsx < b_len and 0 <= nsy < b_len:
                     target_str = ''.join(list(map(str, [fx, fy, nsx, nsy])))
                     if not target_str in visited and board[nsx][nsy] != 1:
                         if idx == 0 and board[sx + 1][sy] != 1:
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (fx, fy), (nsx, nsy)))
+                            heapq.heappush(q, (count + 1, (fx, fy), (nsx, nsy), visited))
                         elif idx == 1 and board[sx - 1][sy] != 1:
                             target_str = ''.join(list(map(str, [nsx, nsy, fx, fy])))
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (nsx, nsy), (fx, fy)))
+                            heapq.heappush(q, (count + 1, (nsx, nsy), (fx, fy), visited))
+                        visited.add(target_str)
         else: # 수직일 때
             for idx, v_ur in enumerate(v_up_rot):
                 nfx, nfy = fx + v_ur[0], fy + v_ur[1]
@@ -71,23 +68,21 @@ def solution(board):
                     if not target_str in visited and board[nfx][nfy] != 1:
                         if idx == 0 and board[fx][fy + 1] != 1:
                             target_str = ''.join(list(map(str, [sx, sy, nfx, nfy])))
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (sx, sy), (nfx, nfy)))
+                            heapq.heappush(q, (count + 1, (sx, sy), (nfx, nfy), visited))
                         elif idx == 1 and board[fx][fy - 1]:
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (nfx, nfy), (sx, sy)))
+                            heapq.heappush(q, (count + 1, (nfx, nfy), (sx, sy), visited))
+                        visited.add(target_str)
             for idx, v_dr in enumerate(v_down_rot):
                 nsx, nsy = sx + v_dr[0], sy + v_dr[1]
                 if 0 <= nsx < b_len and 0 <= nsy < b_len:
                     target_str = ''.join(list(map(str, [fx, fy, nsx, nsy])))
                     if not target_str in visited and board[nsx][nsy] != 1:
                         if idx == 0 and board[sx][sy + 1] != 1:
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (fx, fy), (nsx, nsy)))
+                            heapq.heappush(q, (count + 1, (fx, fy), (nsx, nsy), visited))
                         elif idx == 1 and board[sx][sy - 1] != 1:
                             target_str = ''.join(list(map(str, [nsx, nsy, fx, fy])))
-                            visited.add(target_str)
-                            heapq.heappush(q, (count + 1, (nsx, nsy), (fx, fy)))
+                            heapq.heappush(q, (count + 1, (nsx, nsy), (fx, fy), visited))
+                        visited.add(target_str)
     return answer
 
 print(solution([[0, 0, 0, 1, 1], [0, 0, 0, 1, 0], [0, 1, 0, 1, 1], [1, 1, 0, 0, 1], [0, 0, 0, 0, 0]]))
