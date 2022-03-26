@@ -1,4 +1,4 @@
-from collections import defaultdict, deque
+from collections import deque
 INF = int(1e9)
 N = int(input())
 
