@@ -25,14 +25,14 @@ def shark_move():
             for j in range(N):
                 if graph[i][j] == s:
                     void_flag = False
-                    for next in range(s_direc[s - 1], s_direc[s - 1] + 4):
-                        next %= 4
-                        nx, ny = i + d[next][0], j + d[next][1]
+                    for n_d in s_prior[s - 1][s_direc[s - 1]]:
+                        n_d -= 1
+                        nx, ny = i + d[n_d][0], j + d[n_d][1]
                         if 0 <= nx < N and 0 <= ny < N: # 범위 내 일때
                             if smell_graph[nx][ny][1] == 0: # 빈 공간 일때
-                                graph[i][j] = 0
+                                graph[i][j] = 0 # 지난 자리 비우기
                                 s_locs[s - 1] = [nx, ny] # 현재 위치 변경
-                                s_direc[s - 1] = next # 방향 변경
+                                s_direc[s - 1] = n_d # 방향 변경
                                 void_flag = True
                                 break
                     
@@ -42,7 +42,7 @@ def shark_move():
                             nx, ny = i + d[n_d][0], j + d[n_d][1]
                             if 0 <= nx < N and 0 <= ny < N:
                                 if smell_graph[nx][ny][0] == s: # 자기 냄새 있는 공간일 때
-                                    graph[i][j] = 0
+                                    graph[i][j] = 0 # 지난 자리 비우기
                                     s_locs[s - 1] = [nx, ny] # 현재 위치 변경
                                     s_direc[s - 1] = n_d # 방향 변경
                                     break
@@ -50,15 +50,14 @@ def shark_move():
 
 def overlap_check():
     for idx in range(M):
-        if s_locs[idx] == [None, None]:
-            continue
-        for idx2 in range(idx + 1, M):
-            if s_locs[idx] == s_locs[idx2]: #겹치는 상어 있을 때
-                x, y = s_locs[idx]
-                graph[x][y] = idx + 1 # 작은 인덱스 상어가 자리 차지
-                s_locs[idx2] = [None, None]
+        if s_locs[idx] != [None, None]:
+            for idx2 in range(idx + 1, M):
+                if s_locs[idx] == s_locs[idx2]: # 겹치는 상어 있을 때
+                    x, y = s_locs[idx]
+                    graph[x][y] = idx + 1 # 작은 인덱스 상어가 자리 차지
+                    s_locs[idx2] = [None, None]
     
-    for idx, s_loc in enumerate(s_locs):
+    for idx, s_loc in enumerate(s_locs): # 겹치지 않는 곳도 위치 갱신
         if s_loc != [None, None]:
             x, y = s_loc
             graph[x][y] = idx + 1
@@ -75,8 +74,6 @@ for i in range(N):
         if data[j] != 0:
             s_locs[data[j] - 1] = [i, j]
     graph.append(data)
-
-
 
 s_direc = list(map(int, input().split()))
 for i in range(M):
@@ -99,4 +96,3 @@ while True:
 if second > 1000:
     second = -1
 print(second)
-print(graph)
