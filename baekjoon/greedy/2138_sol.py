@@ -10,8 +10,8 @@ def reverse(strs):
 
 N = int(input())
 
-now = input()
-now2 = reverse(now[:2]) + now[2:]
+now = input() # 첫번째 스위치 OFF
+now2 = reverse(now[:2]) + now[2:] # 첫번째 스위치 ON
 target = input()
 
 if now[0] == target[0]:
