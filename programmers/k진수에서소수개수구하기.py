@@ -6,6 +6,7 @@ def transform(num, k):
     
     return result[::-1]
 
+
 # 에라토스테네스의 체로는 못 품 (메모리 초과)
 def isPrime(num):
     if num < 2:
