@@ -13,6 +13,15 @@ start, end = map(int, input().split())
 distance = [INF] * (N + 1)
 distance[start] = 0
 
-q = []
+# 다익스트라
+q = [(0, start)]
 while q:
-    pass
+    dist, now = heapq.heappop(q)
+    if distance[now] < dist:
+        continue
+    for next, cost in graph[now]:
+        n_dist = dist + cost
+        if n_dist < distance[next]:
+            distance[next] = n_dist
+            heapq.heappush(q, (n_dist, next))
+print(distance[end])
