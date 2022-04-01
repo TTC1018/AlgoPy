@@ -30,6 +30,15 @@ print(dp[0][-1])
 # BC = mats[1]*mats[2]*mats[3]
 # CD = mats[2]*mats[3]*mats[4]
 
-# ABC = AB C or A BC
+# ABC (dp[0][2]) = AB C or A BC
 # => AB C = dp[0][1] + dp[2][2] + mats[0]*mats[2]*mats[3]
 # => A BC = dp[0][0] + dp[1][2] + mats[0]*mats[1]*mats[3]
+
+#BCD (dp[1][3]) = BC D or B CD
+# => BC D = dp[1][2] + dp[3][3] + mats[1]*mats[3]*mats[4]
+# => B CD = dp[1][1] + dp[2][3] + mats[1]*mats[2]*mats[4]
+
+# ABCD = ABC D or AB CD or A BCD
+# => ABC D = dp[0][2] + dp[3][3]
+# => AB CD = dp[0][1] + dp[2][3]
+# => A BCD = dp[0][0] + dp[1][3]
