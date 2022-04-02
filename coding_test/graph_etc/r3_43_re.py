@@ -1,6 +1,4 @@
 import heapq
-
-
 def find_parent(node):
     if parent[node] != node:
         return find_parent(parent[node])
@@ -23,6 +21,7 @@ for _ in range(M):
     X, Y, Z = map(int, input().split())
     heapq.heappush(edges, (Z, X, Y))
     total += Z
+
 
 parent = [i for i in range(N)]
 answer, count = 0, 0
