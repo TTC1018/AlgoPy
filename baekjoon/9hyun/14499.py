@@ -1,6 +1,7 @@
 def roll(loc, direction):
     nx, ny = loc
-    
+
+    # 펼쳐진 주사위의 형태 유지시키면서 값 변경
     if direction == 1: # 동
         tail = dice[1].pop()
         dice[1].insert(0, dice[-1])
@@ -16,9 +17,9 @@ def roll(loc, direction):
         n_v = [dice[3], dice[0], dice[1][1], dice[2]]
         dice[0], dice[1][1], dice[2], dice[3] = n_v
     
-    if graph[nx][ny] == 0:
+    if graph[nx][ny] == 0: # 칸이 0이면
         graph[nx][ny] = dice[-1]
-    else:
+    else: # 칸이 0이 아니면
         graph[nx][ny], dice[-1] = 0, graph[nx][ny]
     print(dice[1][1])
 
@@ -31,6 +32,6 @@ dice = [0, [0, 0, 0], 0, 0]
 
 for o in order:
     nx, ny = x + d[o - 1][0], y + d[o - 1][1]
-    if 0 <= nx < N and 0 <= ny < M:
-        x, y = nx, ny
-        roll((x, y), o)
+    if 0 <= nx < N and 0 <= ny < M: # 범위 내일 때만 실행
+        x, y = nx, ny # 위치 갱신
+        roll((x, y), o) # 주사위 굴리기

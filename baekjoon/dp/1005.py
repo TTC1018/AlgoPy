@@ -2,8 +2,8 @@ def dynamic_dfs(num):
     if dp[num] == -1:
         prevMax = 0
         for child in childs[num]:
-            prevMax = max(prevMax, dynamic_dfs(child))
-        dp[num] = prevMax + D[num]
+            prevMax = max(prevMax, dynamic_dfs(child)) # 자기 자식 중에서 가장 오래 걸리는 시간 찾기
+        dp[num] = prevMax + D[num] # 자식 중에 가장 오래 걸리는 시간 + 자기 시간
     return dp[num]
 
 
