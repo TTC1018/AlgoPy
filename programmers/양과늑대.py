@@ -15,10 +15,10 @@ def dfs(now, sheep, wolf, nexts):
     if sheep <= wolf: # 늑대 수가 양 이상이 됐을 때
         return
     
-    nexts.extend(childs[now])
+    nexts += childs[now] # 자식 노드를 탐색 대상에 추가
     for next in nexts:
         visited[next] = True
-        dfs(next, sheep, wolf, [n for n in nexts if n != next and not visited[n]])
+        dfs(next, sheep, wolf, [n for n in nexts if not visited[n]]) # 미방문 노드만 다음으로 탐색
         visited[next] = False
     
     
