@@ -1,57 +1,39 @@
-from collections import defaultdict
-
-b_graph = []
-# def attack(start, end, degree):
-#     global b_graph
-#     for i in range(start[0], end[0] + 1):
-#         for j in range(start[1], end[1] + 1):
-#             b_graph[i][j] -= degree
-
-
-# def heal(start, end, degree):
-#     global b_graph
-#     for i in range(start[0], end[0] + 1):
-#         for j in range(start[1], end[1] + 1):
-#             b_graph[i][j] += degree
-
-
-def unbroken():
-    global b_graph
-    r_len = len(b_graph)
-    c_len = len(b_graph[0])
-    
-    b_cnt = 0
-    for i in range(r_len):
-        for j in range(c_len):
-            if b_graph[i][j] > 0:
-                b_cnt += 1
-    return b_cnt
-                
-            
 def solution(board, skill):
-    # global b_graph
     answer = 0
-    # b_graph = board
-    # skill = [type, r1, c1, r2, c2, degree]
-    # type = 1 (공격) or 2 (회복)
-    
-    damage = defaultdict(int)
+    ps = [[0] * (len(board[0]) + 1) for _ in range(len(board) + 1)]
     for s in skill:
         type, r1, c1, r2, c2, degree = s
         if type == 1: # 공격
-            for i in range(r1, r2 + 1):
-                for j in range(c1, c2 + 1):
-                    damage[(i, j)] -= degree
-            # attack((r1, c1), (r2, c2), degree)
+            ps[r1][c1] -= degree
+            ps[r2 + 1][c2 + 1] -= degree
+            ps[r2 + 1][c1] += degree
+            ps[r1][c2 + 1] += degree
         elif type == 2: # 회복
-            for i in range(r1, r2 + 1):
-                for j in range(c1, c2 + 1):
-                    damage[(i, j)] += degree
-            # heal((r1, c1), (r2, c2), degree)
-    
-    for i in range(len(board)):
-        for j in range(len(board[0])):
-            if board[i][j] + damage[(i, j)] > 0:
+            ps[r1][c1] += degree
+            ps[r2 + 1][c2 + 1] += degree
+            ps[r2 + 1][c1] -= degree
+            ps[r1][c2 + 1] -= degree
+
+    # 누적합 기록을 이용한 시간 복잡도 줄이기
+    #     -3 -3 0               -3 0 3
+    #     -3 -3 0                0 0 0
+    #      0  0 0 의 공격을 하려면 3 0 -3 을 좌->우 위->아래 누적합 하면 됨
+    # 이것을 하나의 누적합 2차원 배열에 모조리 기록해서 마지막에 원본과 합해서 비교
+    r_len, c_len = len(board), len(board[0])
+    for i in range(c_len + 1):
+        for j in range(1, r_len + 1):
+            ps[j][i] += ps[j - 1][i]
+    for i in range(r_len + 1):
+        for j in range(1, c_len + 1):
+            ps[i][j] += ps[i][j - 1]
+
+    for i in range(r_len):
+        for j in range(c_len):
+            if board[i][j] + ps[i][j] > 0:
                 answer += 1
 
     return answer
+
+
+print(solution(	[[5, 5, 5, 5, 5], [5, 5, 5, 5, 5], [5, 5, 5, 5, 5], [5, 5, 5, 5, 5]],
+                   [[1, 0, 0, 3, 4, 4], [1, 2, 0, 2, 3, 2], [2, 1, 0, 3, 1, 2], [1, 0, 1, 3, 3, 1]]))
