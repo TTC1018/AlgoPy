@@ -1,10 +1,10 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(200)
+
 
 def find_parent(node):
     if parent[node] != node:
-        return find_parent(parent[node])
+        parent[node] = find_parent(parent[node])
     return parent[node]
 
 
