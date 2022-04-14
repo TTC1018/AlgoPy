@@ -3,10 +3,8 @@ sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 def find_parent(node):
-    if parent[node] == node:
-        return node
-    p_node = find_parent(parent[node])
-    parent[node] = p_node
+    if parent[node] != node:
+        parent[node] = find_parent(parent[node])
     return parent[node]
 
 
