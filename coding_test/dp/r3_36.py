@@ -15,5 +15,11 @@ for i in range(1, a_len + 1):
             # dp[i][j - 1] + 1 => 문자 추가하기
             # dp[i - 1][j] + 1 => 문자 삭제하기
             # dp[i - 1][j - 1] + 1 => 문자 교체하기
+            # 예 ) abc -> ab
+            #   0 a b
+            # 0 0 1 2
+            # a 1 0 1
+            # b 2 1 0
+            # c 3 2 1
             dp[i][j] = 1 + min(dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1])
 print(dp[a_len][b_len])

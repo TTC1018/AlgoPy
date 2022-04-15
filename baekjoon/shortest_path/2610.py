@@ -41,15 +41,15 @@ for i in range(1, N + 1):
     for j in range(1, N + 1):
         if graph[i][j] != INF:
             temp_dist = max(temp_dist, graph[i][j])
-    if len(represent[find_parent(i)]) == 0:
-        represent[find_parent(i)].extend([i, temp_dist])
+    if len(represent[find_parent(i)]) == 0: # 초기화 해주기
+        represent[find_parent(i)].extend([i, temp_dist]) # 같은 집합에서 의사전달시간 최대값 저장
     else:
-        if temp_dist < represent[find_parent(i)][1]:
-            represent[find_parent(i)] = [i, temp_dist]
+        if temp_dist < represent[find_parent(i)][1]: # 앞서 저장된 값보다 작을 때 (최댓값의 최소를 구해야 하므로)
+            represent[find_parent(i)] = [i, temp_dist] # 새 값으로 갱신
 
 represent = represent.values()
-represent = list(map(lambda x:x[0], represent))
+represent = list(map(lambda x: x[0], represent)) # 대표 번호만 남기기
 print(len(represent))
-represent.sort()
+represent.sort() # 대표번호 오름차순 정렬
 for r in represent:
     print(r)
