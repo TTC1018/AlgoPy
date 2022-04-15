@@ -23,7 +23,6 @@ def union_parent(a, b):
 N, M, k = map(int, input().split())
 A = [0] + list(map(int, input().split()))
 parent = [i for i in range(N + 1)]
-min_cost = deepcopy(A)
 for _ in range(M):
     v, w = map(int, input().split())
     union_parent(v, w)
