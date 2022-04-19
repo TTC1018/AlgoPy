@@ -1,12 +1,16 @@
 import sys
 from collections import deque
+
 input = sys.stdin.readline
+in_range = lambda x, y: 0 <= x < R and 0 <= y < C
+direc = [(-1, 0), (1, 0), (0, 1), (0, -1)]
 
 
 def find_parent(node):
     x, y = node
-    if parent[x][y] != node:
-        parent[x][y] = find_parent(parent[x][y])
+    if parent[x][y] == node:
+        return node
+    parent[x][y] = find_parent(parent[x][y])
     return parent[x][y]
 
 
@@ -14,60 +18,74 @@ def union_parent(a, b):
     pa = find_parent(a)
     pb = find_parent(b)
     
-    if pa != pb:
-        ax, ay = pa
+    ax, ay = pa
+    bx, by = pb
+
+    # 자식이 더 많은 쪽이 부모가 되도록 설정
+    if p_cnt[ax][ay] > p_cnt[bx][by]:
+        parent[bx][by] = pa
+    elif p_cnt[ax][ay] < p_cnt[bx][by]:
         parent[ax][ay] = pb
-        
-        
-def range_checker(x, y):
-    if 0 <= x < R and 0 <= y < C:
-        return True
-    return False
+    else:
+        parent[bx][by] = pa
+        p_cnt[ax][ay] += 1
 
 
-direc = [(-1, 0), (1, 0), (0, 1), (0, -1)]
-def union():
-    while to_union:
-        pos = to_union.popleft()
-        x, y = pos
+def first_union():
+    for i in range(R):
+        for j in range(C):
+            if not visited[i][j] and lake[i][j] == ".":
+                q = deque([(i, j)])
+                visited[i][j] = True
+                while q:
+                    x, y = q.popleft()
+                    parent[x][y] = (i, j)
+                    for d in direc:
+                        nx, ny = x + d[0], y + d[1]
+                        if in_range(nx, ny) and not visited[nx][ny]:
+                            if lake[nx][ny] == ".":
+                                q.append((nx, ny))
+                            elif lake[nx][ny] == "X":
+                                to_water.append((nx, ny))
+                            visited[nx][ny] = True
+
+
+def ice_to_water():
+    global to_water
+    
+    nexts = deque()
+    while to_water:
+        x, y = to_water.popleft()
+        lake[x][y] = "."
         for d in direc:
             nx, ny = x + d[0], y + d[1]
-            if range_checker(nx, ny):
-                if lake[nx][ny] == '.': # 같은 물이면
-                    union_parent((x, y), (nx, ny))
-                else: # 빙하면
-                    if not visited[nx][ny]: # 중복 녹이기 방지
-                        to_water.append((nx, ny))
-                visited[nx][ny] = True
-
-
-def melt():
-    while to_water:
-        pos = to_water.popleft()
-        x, y = pos
-        lake[x][y] = '.' # 녹이기
-        to_union.append((x, y))
-
+            if in_range(nx, ny):
+                if not visited[nx][ny] and lake[nx][ny] == "X":
+                    nexts.append((nx, ny))
+                    visited[nx][ny] = True
+                elif lake[nx][ny] == ".":
+                    union_parent((nx, ny), (x, y))
+    to_water = nexts
 
 
 R, C = map(int, input().split())
-parent = [[(i, j) for j in range(C)] for i in range(R)]
-visited = [[False] * C for _ in range(R)]
 lake = [list(input()) for _ in range(R)]
+parent = [[(i, j) for j in range(C)] for i in range(R)]
+p_cnt = [[0 for _ in range(C)] for _ in range(R)] # union 최적화를 위한 배열
+visited = [[False] * C for _ in range(R)]
 L = []
 for i in range(R):
     for j in range(C):
-        if lake[i][j] == 'L':
+        if lake[i][j] == "L":
             L.append((i, j))
+            lake[i][j] = "."
+            if len(L) == 2:
+                break
 
-
-to_union, to_water = deque(), deque()
-    
+to_water = deque()
 day = 0
-while True:
-    union()
-    if find_parent(L[0]) == find_parent(L[1]):
-        break
-    melt()
+first_union()
+while find_parent(L[0]) != find_parent(L[1]):
+    ice_to_water()
     day += 1
 print(day)
