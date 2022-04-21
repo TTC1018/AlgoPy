@@ -15,4 +15,4 @@ for a in A:
         loc = bisect_left(sequence, a)
         sequence[loc] = a 
 sequence.pop(0)
-print(len(sequence))
+print(len(sequence)) # 길이는 같으나 LIS 리스트 자체가 최대 증가 수열과 같은 것은 아님 (순서 안 지킴)
