@@ -19,13 +19,13 @@ while q:
     now, dist = q.popleft()
     if dist == K:
         answer.append(now)
-        continue
-    
+
     for nxt in graph[now]:
         if not visited[nxt]:
             visited[nxt] = True
             q.append((nxt, dist + 1))
 
+answer.sort()
 if len(answer) > 0:
     for a in answer:
         print(a)
