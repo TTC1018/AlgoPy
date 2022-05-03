@@ -28,8 +28,8 @@ real_sequence = []
 for i in range(N - 1, -1, -1):
     if idx_list[lines[i][1]] == max_idx:
         real_sequence.append(lines[i][0])
-        max_idx -= 1
-real_sequence.reverse()
+        max_idx -= 1 # 본 수를 기준으로 다음에 오는 대상 찾기
+real_sequence.reverse() # 감소수열이 만들어졌기 때문에 증가수열로 바꿔줌
 
 real_sequence = [n[0] for n in lines if n[0] not in real_sequence]
 print(len(real_sequence))
