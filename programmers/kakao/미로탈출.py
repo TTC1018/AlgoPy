@@ -27,16 +27,16 @@ def solution(n, start, end, roads, traps):
         now_is_trapped = False
         trapped_rooms = set()  # 현재 상태에서 발동된 방 저장
         # 발동된 함정 확인
-        for i in range(len(traps)):
+        for i in range(len(traps)): # 발동된 함정 순차 확인
             bit = 1 << i  # 비트마스킹
             if visit & bit:  # 발동된 적 있으면
                 if traps[i] == now:
                     visit &= ~bit  # 지금 방이랑 같으면 다시 꺼줘야 됨
                 else:
                     trapped_rooms.add(traps[i])
-            else:
+            else: # 발동 안 됐을 때
                 if traps[i] == now:
-                    visit |= bit  # 지금 방이랑 같으면 켜주기
+                    visit |= bit  # 지금 방이랑 같으면 켜주기 (지금 도착했으므로)
                     trapped_rooms.add(traps[i])
                     now_is_trapped = True
 
@@ -44,10 +44,10 @@ def solution(n, start, end, roads, traps):
         for nxt in [nxt for nxt in range(1, n + 1) if nxt != now]:
             nxt_is_trapped = True if nxt in trapped_rooms else False
             if now_is_trapped == nxt_is_trapped:  # 둘다 켜져있거나 꺼져있으면 정방향
-                if graph[now][nxt] != INF:
+                if graph[now][nxt] != INF: # 갈 수 있는 곳이면
                     heappush(q, (dist + graph[now][nxt], nxt, visit))
-            else:
-                if graph[nxt][now] != INF:  # 역방향
+            else: # 한쪽만 활성화 상태면 역방향
+                if graph[nxt][now] != INF:
                     heappush(q, (dist + graph[nxt][now], nxt, visit))
 
     return INF
