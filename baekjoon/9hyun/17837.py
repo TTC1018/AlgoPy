@@ -40,18 +40,18 @@ def move():
 
 N, K = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(N)]
-order = [list(map(int, input().split())) for i in range(K)]
+order = [list(map(int, input().split())) for _ in range(K)]
 chess_piece = dict()
 locs = defaultdict(list)
-for i in range(K):
-    x, y, d = order[i]
-    locs[(x - 1, y - 1)].append(i)
-    chess_piece[i] = [x - 1, y - 1, d - 1]
+for num in range(K):
+    x, y, d = order[num]
+    locs[(x - 1, y - 1)].append(num)
+    chess_piece[num] = [x - 1, y - 1, d - 1]
 
 white, red, blue = 0, 1, 2
 direc = [(0, 1), (0, -1), (-1, 0), (1, 0)]
-for i in range(1, 1000 + 1):
+for turn in range(1, 1000 + 1):
     if move():
-        print(i)
+        print(turn)
         sys.exit()
 print(-1)
