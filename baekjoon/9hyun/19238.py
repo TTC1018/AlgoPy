@@ -4,11 +4,55 @@ input = sys.stdin.readline
 in_range = lambda x, y: 0 <= x < N and 0 <= y < N
 
 
-def drive():
+def bfs_to_start(q, cand):
+    visited = [[False] * N for _ in range(N)]
+    visited[R][C] = True
+
+    while q:
+        x, y, dist = q.popleft()
+        for d in direc:
+            nx, ny = x + d[0], y + d[1]
+            if in_range(nx, ny) and not graph[nx][ny]:
+                if not visited[nx][ny]:
+                    visited[nx][ny] = True
+                    if (nx, ny) in c_start:
+                        cand.append((nx, ny, dist + 1))
+                        continue
+                    else:
+                        if dist + 1 <= fuel:
+                            q.append((nx, ny, dist + 1))
+
+
+def bfs_to_end(q, dx, dy):
     global R, C, fuel
 
     visited = [[False] * N for _ in range(N)]
     visited[R][C] = True
+
+    while q:
+        x, y, dist = q.popleft()
+
+        if (x, y) == (dx, dy):
+            fuel -= dist
+            if fuel < 0:
+                print(-1)
+                sys.exit()
+            else:
+                fuel += dist * 2
+                R, C = dx, dy
+            return
+
+        for d in direc:
+            nx, ny = x + d[0], y + d[1]
+            if in_range(nx, ny) and not graph[nx][ny]:
+                if not visited[nx][ny]:
+                    visited[nx][ny] = True
+                    q.append((nx, ny, dist + 1))
+
+
+def drive():
+    global R, C, fuel
+
     q = deque()
     q.append((R, C, 0))
 
@@ -16,19 +60,7 @@ def drive():
     if (R, C) in c_start: # 현재 지점에 승객 있으면
         cand.append((R, C, 0))
     else:
-        while q:
-            x, y, dist = q.popleft()
-            for d in direc:
-                nx, ny = x + d[0], y + d[1]
-                if in_range(nx, ny) and not graph[nx][ny]:
-                    if not visited[nx][ny]:
-                        visited[nx][ny] = True
-                        if (nx, ny) in c_start:
-                            cand.append((nx, ny, dist + 1))
-                            continue
-                        else:
-                            if dist + 1 <= fuel:
-                                q.append((nx, ny, dist + 1))
+        bfs_to_start(q, cand)
     # 갈 곳 없으면
     if len(cand) == 0:
         print(-1)
@@ -47,36 +79,14 @@ def drive():
         sys.exit()
     else:
         R, C = sx, sy
-        visited = [[False] * N for _ in range(N)]
-        visited[R][C] = True
         q = deque()
         q.append((R, C, 0))
-
-        # 도착지점 최단거리 찾기
-        while q:
-            x, y, dist = q.popleft()
-
-            if (x, y) == (dx, dy):
-                fuel -= dist
-                if fuel < 0:
-                    print(-1)
-                    sys.exit()
-                else:
-                    fuel += dist * 2
-                    R, C = dx, dy
-                break
-
-            for d in direc:
-                nx, ny = x + d[0], y + d[1]
-                if in_range(nx, ny) and not graph[nx][ny]:
-                    if not visited[nx][ny]:
-                        visited[nx][ny] = True
-                        q.append((nx, ny, dist + 1))
-
+        bfs_to_end(q, dx, dy) # 도착지점 최단거리 찾기
         if (R, C) == (sx, sy): # 도착지에 도달 불가능 할 때
             print(-1)
             sys.exit()
 
+    # 운행한 승객 제거
     del c_start[c_num]
     del c_end[c_num]
 
