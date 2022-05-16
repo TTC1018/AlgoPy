@@ -36,7 +36,7 @@ def solve():
                 answers.append(i_cnt)
 
     answers.sort()
-    if answers[-1] > 1:
+    if len(answers) > 0:
         print(answers[-1])
     else:
         print(0)
@@ -82,8 +82,8 @@ def firestorm(l):
 
 direc = [(-1, 0), (1, 0), (0, 1), (0, -1)]
 N, Q = map(int, input().split())
-# graph = [list(map(int, input().split())) for _ in range(2**N)]
-graph = [[i*2**N+j for j in range(2**N)] for i in range(2**N)]
+graph = [list(map(int, input().split())) for _ in range(2**N)]
+# graph = [[i*2**N+j for j in range(2**N)] for i in range(2**N)]
 L = list(map(int, input().split()))
 
 for level in L:
