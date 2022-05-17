@@ -41,7 +41,7 @@ def search_group():
         for j in range(N):
             if board[i][j] not in [-2, -1, 0] and not visited[i][j]:
                 visited[i][j] = True
-                groups[(i, j)] = [[(i, j)], 0]
+                groups[(i, j)] = [[(i, j)], 0] # 그룹을 이루는 블록들 + 무지개 블록 수
 
                 q = deque()
                 q.append((i, j))
