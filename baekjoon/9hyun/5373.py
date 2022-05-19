@@ -51,28 +51,28 @@ def clock(part):
                 rubik_front[idx].appendleft(rubik_left[idx].pop())
     elif part in ['L', 'R']:
         idx = 0 if part == 'L' else 2
-        rubik_up = clock_spin(rubik_up)  # 행,열 뒤집기
-        rubik_front = clock_spin(rubik_front)
-        rubik_down = clock_spin(rubik_down)
-        rubik_back = clock_spin(rubik_back)
+        rubik_up = transpose(rubik_up)  # 행,열 뒤집기
+        rubik_front = transpose(rubik_front)
+        rubik_down = transpose(rubik_down)
+        rubik_back = transpose(rubik_back)
         if idx == 0:
             rubik_left = clock_spin(rubik_left)
             for _ in range(3):
-                rubik_up[idx].append(rubik_back[idx].popleft())
+                rubik_up[idx].append(rubik_back[idx + 2].popleft())
             for _ in range(3):
                 rubik_front[idx].append(rubik_up[idx].popleft())
             for _ in range(3):
                 rubik_down[idx].append(rubik_front[idx].popleft())
             for _ in range(3):
-                rubik_back[idx].append(rubik_down[idx].popleft())
+                rubik_back[idx + 2].append(rubik_down[idx].popleft())
         elif idx == 2:
             rubik_right = clock_spin(rubik_right)
             for _ in range(3):
-                rubik_back[idx].appendleft(rubik_up[idx].pop())
+                rubik_back[idx - 2].appendleft(rubik_up[idx].pop())
             for _ in range(3):
                 rubik_down[idx].appendleft(rubik_back[idx].pop())
             for _ in range(3):
-                rubik_front[idx].appendleft(rubik_down[idx].pop())
+                rubik_front[idx].appendleft(rubik_down[idx - 2].pop())
             for _ in range(3):
                 rubik_up[idx].appendleft(rubik_front[idx].pop())
         rubik_up = transpose(rubik_up)
@@ -137,13 +137,13 @@ def counterclock(part):
         if idx == 0:
             rubik_left = c_clock_spin(rubik_left)
             for _ in range(3):
-                rubik_down[idx].appendleft(rubik_back[idx].pop())
+                rubik_down[idx].appendleft(rubik_back[idx + 2].pop())
             for _ in range(3):
                 rubik_front[idx].appendleft(rubik_down[idx].pop())
             for _ in range(3):
                 rubik_up[idx].appendleft(rubik_front[idx].pop())
             for _ in range(3):
-                rubik_back[idx].appendleft(rubik_up[idx].pop())
+                rubik_back[idx + 2].appendleft(rubik_up[idx].pop())
         elif idx == 2:
             rubik_right = c_clock_spin(rubik_right)
             for _ in range(3):
@@ -151,9 +151,9 @@ def counterclock(part):
             for _ in range(3):
                 rubik_down[idx].append(rubik_front[idx].popleft())
             for _ in range(3):
-                rubik_back[idx].append(rubik_down[idx].popleft())
+                rubik_back[idx - 2].append(rubik_down[idx].popleft())
             for _ in range(3):
-                rubik_up[idx].append(rubik_back[idx].popleft())
+                rubik_up[idx].append(rubik_back[idx - 2].popleft())
         rubik_up = transpose(rubik_up)
         rubik_front = transpose(rubik_front)
         rubik_down = transpose(rubik_down)
@@ -201,7 +201,7 @@ for _ in range(int(input())):
 
     for s in spin:
         rotate(s[0], s[1])
-        for r in rubik_back:
+        for r in rubik_up:
             print(''.join(r))
 
     # for r in rubik_up:
