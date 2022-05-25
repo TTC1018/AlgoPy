@@ -36,7 +36,9 @@ def solution(str1, str2):
         if k not in s1:
             joined += s2[k]
 
-    answer = int((overlap / joined) * 65536)
+    answer = 65536
+    if joined:
+        answer = int((overlap / joined) * 65536)
     return answer
 
 print(solution('E=M*C^2', 'e=m*c^2'))
