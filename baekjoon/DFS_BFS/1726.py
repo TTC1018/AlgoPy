@@ -16,8 +16,6 @@ def bfs():
         nx, ny = x, y
         for _ in range(3):
             nx, ny = nx + direc[d][0], ny + direc[d][1]
-            if in_range(nx, ny) and visited[nx][ny][d]:
-                continue
             if in_range(nx, ny) and not graph[nx][ny]:# 갈 수 있을 때
                 if not visited[nx][ny][d]:
                     visited[nx][ny][d] = True
