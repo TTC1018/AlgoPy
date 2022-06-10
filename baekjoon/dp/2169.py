@@ -1,25 +1,26 @@
+import sys
+sys.setrecursionlimit(10**5)
 in_range = lambda x, y: 0 <= x < N and 0 <= y < M
+INF = int(1e9)
+
+def dfs(x, y, prev_d):
+    if x == N - 1 and y == M - 1:
+        return graph[x][y]
+
+    if dp[x][y][prev_d] == -1:
+        dp[x][y][prev_d] = -INF
+        for i in range(3):
+            nx, ny = x + direc[i][0], y + direc[i][1]
+            if (prev_d == 1 and i == 2) or (prev_d == 2 and i == 1): # 간 곳 또가는 경우
+                continue
+
+            if in_range(nx, ny):
+                dp[x][y][prev_d] = max(dp[x][y][prev_d], dfs(nx, ny, i) + graph[x][y])
+    return dp[x][y][prev_d]
 
 
-def dfs(x, y):
-    if (x, y) == (0, 0):
-        return graph[0][0]
-
-    max_val = -101
-    for d in direc:
-        nx, ny = x + d[0], y + d[1]
-        if in_range(nx, ny):
-            max_val = max(max_val, dfs(nx, ny))
-    dp[x][y] += max_val
-    return dp[x][y]
-
-
-direc = [(0, -1), (0, 1), (-1, 0)]
-N, M = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(N)]
-dp = [[0] * M for _ in range(N)]
-dp[N - 1][M - 1] = graph[N - 1][M - 1]
-
-visited = [[False] * M for _ in range(N)]
-dfs(N - 1, M - 1)
-print(dp[0][0])
+N, M = map(int, sys.stdin.readline().split())
+graph = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+direc = [(1, 0), (0, 1), (0, -1)]
+dp = [[[-1] * 3 for _ in range(M)] for _ in range(N)]
+print(dfs(0, 0, -1))
