@@ -13,17 +13,14 @@ for _ in range(int(input())):
 
 
     slime.sort()
-    answer = []
+    answer = 1
     while slime:
         min_val = heappop(slime)
         product = min_val * heappop(slime)
 
-        answer.append(product)
+        answer *= product
         heappush(slime, product)
         if len(slime) == 1:
             break
 
-    result = 1
-    for p in answer:
-        result *= p
-    print(result % MOD)
+    print(answer % MOD)
