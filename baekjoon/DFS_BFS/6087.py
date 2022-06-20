@@ -16,30 +16,29 @@ for i in range(H):
 
 q = deque()
 visited = [[INF for _ in range(W)] for _ in range(H)]
-visited[razer[0][0]][razer[0][1]] = -1
 for i in range(4):
     x, y = razer[0]
     nx, ny = x + direc[i][0], y + direc[i][1]
     if in_range(nx, ny) and graph[nx][ny] != '*':
-        q.append((nx, ny, i))
+        q.append((nx, ny, 0, i))
         visited[nx][ny] = 0
 
-
+answer = INF
 while q:
-    x, y, drc = q.popleft()
+    x, y, cnt, drc = q.popleft()
 
     if (x, y) == razer[1]:
+        answer = min(answer, cnt)
         continue
 
     for i in range(4):
         nx, ny = x + direc[i][0], y + direc[i][1]
         if in_range(nx, ny) and graph[nx][ny] != '*':
-            if i == drc:
-                if visited[x][y] <= visited[nx][ny]:
-                    q.append((nx, ny, i))
-                    visited[nx][ny] = visited[x][y]
+            if i == drc and cnt <= visited[nx][ny]:
+                q.append((nx, ny, cnt, i))
+                visited[nx][ny] = cnt
             else:
-                if visited[x][y] + 1 <= visited[nx][ny]:
-                    q.append((nx, ny, i))
-                    visited[nx][ny] = visited[x][y] + 1
-print(visited[razer[1][0]][razer[1][1]])
+                if cnt + 1 <= visited[nx][ny]:
+                    q.append((nx, ny, cnt + 1, i))
+                    visited[nx][ny] = cnt + 1
+print(answer)
