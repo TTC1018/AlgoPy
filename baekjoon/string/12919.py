@@ -2,7 +2,9 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-
+# BABA
+# BAB + A
+# ABA + B & 뒤집기
 S = list(input().rstrip())
 T = list(input().rstrip())
 
