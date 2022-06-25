@@ -8,9 +8,6 @@ in_range = lambda x, y: 0 <= x < 12 and 0 <= y < 6
 def explode():
     global chain
 
-    # for f in field:
-    #     print(*f)
-    # print()
 
     d_flag = False
     q = deque()
@@ -47,10 +44,10 @@ def drop():
     for j in range(6):
         for i in range(10, -1, -1):
             if field[i][j] != '.':
-                x, y = i, j
-                while x < 11 and field[x + 1][y] == '.':
-                    field[x][y], field[x + 1][y] = '.', field[x][y]
+                x = i
+                while x < 11 and field[x + 1][j] == '.':
                     x += 1
+                field[i][j], field[x][j] = '.', field[i][j]
     explode()
 
 
