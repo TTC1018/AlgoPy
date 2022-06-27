@@ -11,7 +11,7 @@ not_to_be_zero = set()
 for num in nums:
     n_len = len(num)
     d[num[0]] += 10**(n_len - 1)
-    not_to_be_zero.add(num[0]) # 첫번째 수가 0이 되면 안 됨
+    not_to_be_zero.add(num[0]) # 맨앞 알파벳이 0이 되면 안 됨
 
     limit = n_len
     n_len -= 1
