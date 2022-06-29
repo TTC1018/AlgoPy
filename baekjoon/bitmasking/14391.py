@@ -1,53 +1,54 @@
+import sys
+input = sys.stdin.readline
+
+
 def btk(pos, mask):
     global answer
     if pos == N * M:
         result = 0
 
-        visited = [False] * (1 << (N * M))
-        visited[0] = True
-
-        for idx in range(N * M):
-            if not visited[idx]:
-                visited[idx] = True
-                r, c = divmod(idx, M)
-                tmp = str(P[r][c])
-                if mask & (1 << idx): # 가로
-                    tmp_idx = idx + 1
-                    c += 1
-                    while c < M and mask & tmp_idx and not visited[tmp_idx]:
-                        visited[tmp_idx] = True
-                        tmp += str(P[r][c])
-                        c += 1
+        # 가로 종이 더하기
+        for i in range(N):
+            j = 0
+            while j < M:
+                tmp = str(P[i][j])
+                if mask & (1 << (i * M + j)):
+                    tmp_idx = j + 1
+                    while tmp_idx < M and mask & (1 << (i * M + tmp_idx)):
+                        tmp += str(P[i][tmp_idx])
                         tmp_idx += 1
                     result += int(tmp)
+                    j = tmp_idx
                 else:
-                    tmp_idx = idx + M
-                    r += 1
-                    while r < N and mask & tmp_idx and not visited[tmp_idx]:
-                        visited[tmp_idx] = True
-                        tmp += str(P[r][c])
-                        r += 1
-                        tmp_idx += M
-                result += int(tmp)
+                    j += 1
 
-        print(bin(mask), result)
+        # 세로 종이 더하기
+        for j in range(M):
+            i = 0
+            while i < N:
+                tmp = str(P[i][j])
+                if not mask & (1 << (i * M + j)):
+                    tmp_idx = i + 1
+                    while tmp_idx < N and not mask & (1 << (tmp_idx * M + j)):
+                        tmp += str(P[tmp_idx][j])
+                        tmp_idx += 1
+                    result += int(tmp)
+                    i = tmp_idx
+                else:
+                    i += 1
+
         answer = max(answer, result)
         return
 
 
     nxt = pos + 1
-    if pos >= M:
-        if not mask & (1 << (pos - M)): # 이전 줄이 가로 아님
-            btk(nxt, mask | (1 << pos))
-        btk(nxt, mask)
-    else:
-        btk(nxt, mask | (1 << pos))
-        btk(nxt, mask)
+    btk(nxt, mask | (1 << pos)) # 가로 표시
+    btk(nxt, mask) # 세로 표시
 
 
 
 N, M = map(int, input().split())
-P = [list(map(int, list(input()))) for _ in range(N)]
+P = [list(map(int, list(input().rstrip()))) for _ in range(N)]
 answer = 0
 btk(0, 0)
 print(answer)
