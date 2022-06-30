@@ -4,7 +4,7 @@ input = sys.stdin.readline
 
 N, M, K = map(int, input().split())
 S = [-1] + list(map(int, input().split()))
-if M in [0, 1]:
+if M <= 1:
     print('YES')
     sys.exit()
 
