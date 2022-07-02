@@ -34,10 +34,10 @@ while q:
     for i in range(4):
         nx, ny = x + direc[i][0], y + direc[i][1]
         if in_range(nx, ny) and graph[nx][ny] != '*':
-            if i == drc and cnt <= visited[nx][ny]:
+            if i == drc and cnt <= visited[nx][ny]: # 방향 그대로 (거울 사용 안 함)
                 q.append((nx, ny, cnt, i))
-                visited[nx][ny] = cnt
-            else:
+                visited[nx][ny] =  cnt
+            else: # 방향 다름 (거울 사용)
                 if cnt + 1 <= visited[nx][ny]:
                     q.append((nx, ny, cnt + 1, i))
                     visited[nx][ny] = cnt + 1
