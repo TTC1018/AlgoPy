@@ -1,26 +1,21 @@
-from collections import defaultdict
+from itertools import permutations
 import re
 
 
 def solution(user_id, banned_id):
+    answer = set()
 
-    d = defaultdict(set)
-    for b in banned_id:
-        regex = re.compile(b.replace('*', '.{1}'))
-        for u in user_id:
-            if regex.fullmatch(u):
-                d[b].add(u)
+    b_len = len(banned_id)
+    for i in range(b_len):
+        banned_id[i] = banned_id[i].replace('*', '.{1}')
 
-
-
-    if not d:
-        return 0
-
-    answer = 1
-    for key in d:
-        answer *= len(d[key])
-
-    return answer
+    for cand in permutations(user_id, b_len):
+        for i in range(b_len):
+            if not re.fullmatch(banned_id[i], cand[i]):
+                break
+        else:
+            answer.add(tuple(sorted(cand)))
+    return len(answer)
 
 
 print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"], ["fr*d*", "abc1**"]))
