@@ -4,6 +4,8 @@ input = sys.stdin.readline
 in_range = lambda x, y: 0 <= x < H and 0 <= y < W
 INF = int(1e9)
 direc = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+
+
 W, H = map(int, input().split())
 graph = []
 razer = []
@@ -33,12 +35,13 @@ while q:
 
     for i in range(4):
         nx, ny = x + direc[i][0], y + direc[i][1]
-        if in_range(nx, ny) and graph[nx][ny] != '*':
-            if i == drc and cnt <= visited[nx][ny]: # 방향 그대로 (거울 사용 안 함)
+        while in_range(nx, ny) and graph[nx][ny] != '*':
+            if i == drc and cnt < visited[nx][ny]: # 방향 그대로 (거울 사용 안 함)
                 q.append((nx, ny, cnt, i))
-                visited[nx][ny] =  cnt
+                visited[nx][ny] = cnt
             else: # 방향 다름 (거울 사용)
-                if cnt + 1 <= visited[nx][ny]:
+                if cnt + 1 < visited[nx][ny]:
                     q.append((nx, ny, cnt + 1, i))
                     visited[nx][ny] = cnt + 1
+            nx, ny = nx + direc[i][0], ny + direc[i][1]
 print(answer)
