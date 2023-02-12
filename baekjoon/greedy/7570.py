@@ -16,4 +16,7 @@ for i in range(1, N):
         length = max(length, lis)
     else: # 증가수열이 아니거나, 증가수열이지만 연속하는 숫자로만 이루어진 증가수열이 아닌 경우
         lis = 1
+
+if N == 1:
+    length = 1
 print(N - length)
