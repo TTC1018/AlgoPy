@@ -2,27 +2,39 @@ import sys
 input = sys.stdin.readline
 
 
+def eval(a, sign, b):
+    result = 0
+    if sign == 'S':
+        result = a - b
+    elif sign == 'M':
+        result = a * b
+    elif sign == 'U':
+        result = a // b if a > 0 else -(abs(a)//b)
+    elif sign == 'P':
+        result = a + b
+    return str(result)
+
+
 N = int(input())
 S = input().rstrip()
 
-temp = ''
-temps = []
-sign = ''
-signs = {'S', 'M', 'U', 'P'}
+prv, nxt = [], []
 answer = []
-for s in S:
-    if s == 'C':
-        if temps:
-            answer.append(temps[0])
-    elif s in signs:
+sign = ''
+for c in S:
+    if c.isdigit():
         if sign:
-            temps.append(temps.pop())
-            sign = s
+            nxt.append(c)
         else:
-            temps.append(temp)
-            sign = s
-    elif s.isdigit():
-        temp += s
+            prv.append(c)
+    else:
+        if sign and sign != 'C':
+            prv = [eval(int(''.join(prv)), sign, int(''.join(nxt)))]
+            nxt.clear()
+
+        if c == 'C':
+            answer.append(int(''.join(prv)))
+        sign = c
 
 if answer:
     print(*answer)
